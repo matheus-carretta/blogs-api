@@ -1,5 +1,5 @@
-const users = require('./users');
+const loginRouter = require('./login');
 
 module.exports = {
-  users,
+  loginRouter,
 };
