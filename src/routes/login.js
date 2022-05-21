@@ -1,10 +1,11 @@
 const express = require('express');
+const rescue = require('express-rescue');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  console.log('Testando router');
-  return res.status(201).json({ message: 'teste!' });
-});
+const loginController = require('../controllers/loginController');
+const { validateLogin } = require('../middlewares/validateLogin');
+
+router.post('/', validateLogin, rescue(loginController.login));
 
 module.exports = router;
