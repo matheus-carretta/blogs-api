@@ -6,9 +6,7 @@ const create = async (user) => {
 
   const userExists = await User.findOne({ where: { email } });
 
-  console.log(user)
   if (userExists) throw errorHandler(409, 'User already registered');
-  console.log('oi')
 
   await User.create(user);
 
