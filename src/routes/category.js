@@ -9,4 +9,6 @@ const validateCategory = require('../middlewares/validateCategory');
 
 router.post('/', validateToken, validateCategory, rescue(categoryController.create));
 
+router.get('/', validateToken, rescue(categoryController.getAll));
+
 module.exports = router;
