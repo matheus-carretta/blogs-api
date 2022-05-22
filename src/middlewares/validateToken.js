@@ -11,6 +11,7 @@ const validateToken = (req, _res, next) => {
 
   try {
     jwt.verify(token, secret);
+    req.token = token;
   } catch (err) {
     console.log(err);
     throw errorHandler(401, 'Expired or invalid token');
