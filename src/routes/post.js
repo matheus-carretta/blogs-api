@@ -9,4 +9,6 @@ const postController = require('../controllers/postController');
 
 router.post('/', validateToken, validatePost, rescue(postController.create));
 
+router.get('/', validateToken, rescue(postController.getAll));
+
 module.exports = router;
