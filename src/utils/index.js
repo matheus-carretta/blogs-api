@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+const secret = process.env.JWT_SECRET;
+
 const errorHandler = (status, message) => {
   const newError = {
     status,
@@ -11,7 +13,6 @@ const errorHandler = (status, message) => {
 };
 
 const generateToken = (info) => {
-  const secret = process.env.JWT_SECRET;
   const jwtConfig = {
     expiresIn: '1d',
     algorithm: 'HS256',
@@ -21,7 +22,14 @@ const generateToken = (info) => {
   return token;
 };
 
+const verifyToken = (token) => {
+  const verifiedToken = jwt.verify(token, secret);
+
+  return verifiedToken;
+};
+
 module.exports = {
   errorHandler,
   generateToken,
+  verifyToken,
 };
