@@ -19,9 +19,8 @@ const create = async (postInfos) => {
 
   const createdPost = await BlogPost.create(completPost);
   
-  const x = await createdPost.addCategories(categoryIds);
+  await createdPost.addCategories(categoryIds);
 
-  console.log(x);
   return createdPost;
 };
 
