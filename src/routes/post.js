@@ -11,4 +11,6 @@ router.post('/', validateToken, validatePost, rescue(postController.create));
 
 router.get('/', validateToken, rescue(postController.getAll));
 
+router.get('/:id', validateToken, rescue(postController.getById));
+
 module.exports = router;
