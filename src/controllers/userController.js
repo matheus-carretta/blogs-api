@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+const { verifyToken } = require('../utils');
 
 const create = async (req, res) => {
   const { displayName, email, password, image } = req.body;
@@ -29,8 +30,17 @@ const getById = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const destroyMe = async (req, res) => {
+  const token = verifyToken(req.token);
+  
+  await userService.destroy(token.data);
+
+  return res.status(204).json();
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  destroyMe,
 };

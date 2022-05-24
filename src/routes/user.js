@@ -11,6 +11,8 @@ router.post('/', validateUser, rescue(userController.create));
 
 router.get('/', validateToken, rescue(userController.getAll));
 
+router.delete('/me', validateToken, rescue(userController.destroyMe));
+
 router.get('/:id', validateToken, rescue(userController.getById));
 
 module.exports = router;
