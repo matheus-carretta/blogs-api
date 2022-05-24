@@ -56,9 +56,22 @@ const update = async (id, title, content, email) => {
   return updatedPost;
 };
 
+const destroy = async (id, email) => {
+  const { dataValues: { userId } } = await getById(id);
+
+  const { dataValues: { id: loggedId } } = await User.findOne({ where: { email } });
+
+  if (userId !== loggedId) throw errorHandler(401, 'Unauthorized user');
+
+  const deletedPost = BlogPost.destroy({ where: { id } });
+
+  return deletedPost;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
+  destroy,
 };
