@@ -12,6 +12,8 @@ router.post('/', validateToken, validatePost, rescue(postController.create));
 
 router.get('/', validateToken, rescue(postController.getAll));
 
+router.get('/search', validateToken, rescue(postController.getByQuery));
+
 router.get('/:id', validateToken, rescue(postController.getById));
 
 router.put('/:id', validateToken, validateUpdatePost, rescue(postController.update));

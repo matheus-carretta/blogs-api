@@ -50,10 +50,20 @@ const destroy = async (req, res) => {
   return res.status(204).json();
 };
 
+const getByQuery = async (req, res) => {
+  const { q } = req.query;
+  console.log(q);
+
+  const posts = await postService.getByQuery(q);
+
+  return res.status(200).json(posts);
+};
+
 module.exports = {
   create,
   getAll,
   getById,
   update,
   destroy,
+  getByQuery,
 };
