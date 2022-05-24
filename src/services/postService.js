@@ -44,8 +44,21 @@ const getById = async (id) => {
   return post;
 };
 
+const update = async (id, title, content, email) => {
+  const user = await User.findOne({ where: { email } });
+
+  if (user.dataValues.id !== +id) throw errorHandler(401, 'Unauthorized user');
+
+  await BlogPost.update({ title, content }, { where: { id } });
+
+  const updatedPost = await getById(id);
+
+  return updatedPost;
+};
+
 module.exports = {
   create,
   getAll,
   getById,
+  update,
 };
