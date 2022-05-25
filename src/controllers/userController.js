@@ -33,7 +33,7 @@ const getById = async (req, res) => {
 const destroyMe = async (req, res) => {
   const token = verifyToken(req.token);
   
-  await userService.destroy(token.data);
+  await userService.destroy(token.userId);
 
   return res.status(204).json();
 };

@@ -7,7 +7,8 @@ const login = async (email, password) => {
   if (!userExists) {
     throw errorHandler(400, 'Invalid fields');
   }
-  const token = generateToken(email);
+
+  const token = generateToken(userExists.dataValues.id);
 
   return token;
 };

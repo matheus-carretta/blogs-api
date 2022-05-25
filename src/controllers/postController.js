@@ -9,7 +9,7 @@ const create = async (req, res) => {
     title,
     content,
     categoryIds,
-    email: token.data,
+    userId: token.userId,
   };
 
   const created = await postService.create(newPost);
@@ -36,7 +36,7 @@ const update = async (req, res) => {
   const { id } = req.params;
   const token = verifyToken(req.token);
 
-  const updatedPost = await postService.update(id, title, content, token.data);
+  const updatedPost = await postService.update(id, title, content, token.userId);
 
   return res.status(200).json(updatedPost);
 };
@@ -45,14 +45,13 @@ const destroy = async (req, res) => {
   const { id } = req.params;
   const token = verifyToken(req.token);
 
-  await postService.destroy(id, token.data);
+  await postService.destroy(id, token.userId);
 
   return res.status(204).json();
 };
 
 const getByQuery = async (req, res) => {
   const { q } = req.query;
-  console.log(q);
 
   const posts = await postService.getByQuery(q);
 

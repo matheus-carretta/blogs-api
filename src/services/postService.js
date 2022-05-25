@@ -4,7 +4,7 @@ const { BlogPost, User, Category } = require('../database/models');
 const { errorHandler } = require('../utils');
 
 const create = async (postInfos) => {
-  const { email, categoryIds, ...post } = postInfos;
+  const { categoryIds, ...post } = postInfos;
   
   const categories = await Category.findAndCountAll({ where: { id: categoryIds } });
 
@@ -12,14 +12,7 @@ const create = async (postInfos) => {
     throw errorHandler(400, '"categoryIds" not found');
   }
 
-  const user = await User.findOne({ where: { email } });
-
-  const completPost = {
-    ...post,
-    userId: user.id,
-  };
-
-  const createdPost = await BlogPost.create(completPost);
+  const createdPost = await BlogPost.create(post);
   
   await createdPost.addCategories(categoryIds);
 
@@ -46,10 +39,8 @@ const getById = async (id) => {
   return post;
 };
 
-const update = async (id, title, content, email) => {
-  const user = await User.findOne({ where: { email } });
-
-  if (user.dataValues.id !== +id) throw errorHandler(401, 'Unauthorized user');
+const update = async (id, title, content, loggedId) => {
+  if (loggedId !== +id) throw errorHandler(401, 'Unauthorized user');
 
   await BlogPost.update({ title, content }, { where: { id } });
 
@@ -58,14 +49,12 @@ const update = async (id, title, content, email) => {
   return updatedPost;
 };
 
-const destroy = async (id, email) => {
-  const { dataValues: { userId } } = await getById(id);
-
-  const { dataValues: { id: loggedId } } = await User.findOne({ where: { email } });
+const destroy = async (postId, loggedId) => {
+  const { dataValues: { userId } } = await getById(postId);
 
   if (userId !== loggedId) throw errorHandler(401, 'Unauthorized user');
 
-  const deletedPost = BlogPost.destroy({ where: { id } });
+  const deletedPost = BlogPost.destroy({ where: { id: postId } });
 
   return deletedPost;
 };

@@ -17,7 +17,7 @@ const generateToken = (info) => {
     expiresIn: '1d',
     algorithm: 'HS256',
   };
-  const token = jwt.sign({ data: info }, secret, jwtConfig);
+  const token = jwt.sign({ userId: info }, secret, jwtConfig);
 
   return token;
 };
